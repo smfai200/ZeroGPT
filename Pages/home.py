@@ -37,11 +37,11 @@ layout=dbc.Container([
             # ],
             # ),
             dbc.Row([
-                dbc.Col(html.H5('Real', className="text-info"), width=4, style={'text-align' : 'right'}),
+                dbc.Col(html.H5('Human Written', className="text-info"), width=4, style={'text-align' : 'right'}),
                 dbc.Col(dcc.Loading(id='loading',children=html.Div(''),
                     type="default"),
                     width=4),
-                dbc.Col(html.H5('Fake', className="text-danger"), width=4, style={'text-align' : 'left'}),
+                dbc.Col(html.H5('AI Generated', className="text-danger"), width=4, style={'text-align' : 'left'}),
             ], style={'margin-top' : '20px'}),
             dbc.Row([
                 dbc.Col(dbc.Progress(

@@ -25,17 +25,17 @@ layout=dbc.Container([
                     style={'width': '100%', 'height': 400},
                 ), width={"size": 6, "offset": 3}),
             ]),
-            dbc.Row(
-            [
-                dbc.Col([
-                    dcc.Upload(id='upload_file', children=[
-                                'Upload File ',
-                                html.A('(.txt, .docx, .pdf)'), 
-                    ], multiple=False,
-                        className='upload-style')
-                ], width={"size": 6, "offset": 3}),
-            ],
-            ),
+            # dbc.Row(
+            # [
+            #     dbc.Col([
+            #         dcc.Upload(id='upload_file', children=[
+            #                     'Upload File ',
+            #                     html.A('(.txt, .docx, .pdf)'),
+            #         ], multiple=False,
+            #             className='upload-style')
+            #     ], width={"size": 6, "offset": 3}),
+            # ],
+            # ),
             dbc.Row([
                 dbc.Col(html.H5('Real', className="text-info"), width=4, style={'text-align' : 'right'}),
                 dbc.Col(dcc.Loading(id='loading',children=html.Div(''),

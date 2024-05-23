@@ -10,7 +10,7 @@ import io
 import docx2txt
 import PyPDF2
 import os
-
+import requests
 
 
 # -----------------------------------
@@ -87,7 +87,41 @@ class AppCallback:
             return home.layout
         else:
             return dash.no_update
-    
+
+    def classifier_new(self,text):
+        API_URL = "https://api-inference.huggingface.co/models/andreas122001/bloomz-1b7-mixed-detector"
+        headers = {"Authorization": "Bearer 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"}
+        payload = {
+            "inputs": str(text),
+        }
+        response = requests.post(API_URL, headers=headers, json=payload)
+        resp = response.json()
+        print(resp)
+        return resp
+
+    def recheck_values(self,text):
+        new_values = self.classifier_new(text)
+        label = new_values[0][0]['label']
+        score = new_values[0][0]['score']
+        if label == 'human-produced':
+            real_score = score * 100
+            fake_score = 100 - real_score
+            real_score_lable = f"{real_score:.0f}%"
+            if int(fake_score) < 10:
+                fake_score_lable = ""
+            else:
+                fake_score_lable = f"{fake_score:.0f}%"
+        else:
+            fake_score = score * 100
+            real_score = 100 - fake_score
+            fake_score_lable = f"{fake_score:.0f}%"
+            if int(real_score) < 10:
+                real_score_lable = ""
+            else:
+                real_score_lable = f"{real_score:.0f}%"
+
+        return [real_score, real_score_lable, fake_score, fake_score_lable, '']
+
     def classifyText(self, text):
         if text != None and text != "":
             res = self.classifier(text, truncation=True, max_length=510)
@@ -111,7 +145,9 @@ class AppCallback:
                 else:
                     real_score_lable =f"{real_score:.0f}%"
 
-
+            # resp = self.recheck_values(text)
+            # return resp
             return [real_score, real_score_lable, fake_score, fake_score_lable, '']
         else:
+            print([50, "", 50, "", ''])
             return [50, "", 50, "", '']
